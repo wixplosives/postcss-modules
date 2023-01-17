@@ -1,5 +1,5 @@
 {
-  "name": "postcss-modules",
+  "name": "@wixc3/postcss-modules",
   "version": "6.0.0",
   "description": "PostCSS plugin to use CSS Modules everywhere",
   "main": "build/index.js",
@@ -16,7 +16,7 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/css-modules/postcss-modules.git"
+    "url": "https://github.com/wixplosives/postcss-modules.git"
   },
   "dependencies": {
     "generic-names": "^4.0.0",
@@ -44,12 +44,14 @@
     "husky": "^4.2.5",
     "jest": "^26.0.1",
     "lint-staged": "^10.2.11",
-    "postcss": "^8.1.9",
+    "postcss": "^8.4.21",
     "prettier": "^2.0.5"
   },
   "scripts": {
     "test": "make test",
-    "precommit": "lint-staged"
+    "precommit": "lint-staged",
+    "build": "babel src -d ./build",
+    "prepack": "npm run build"
   },
   "lint-staged": {
     "*.{json,md}": [

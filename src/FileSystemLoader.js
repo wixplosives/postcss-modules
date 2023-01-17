@@ -1,7 +1,7 @@
 // Initially copied from https://github.com/css-modules/css-modules-loader-core
 
 import postcss from "postcss";
-import path from "path";
+// import path from "path";
 
 import Parser from "./Parser";
 import { getFileSystem } from "./fs";
@@ -47,15 +47,15 @@ const traceKeySorter = (a, b) => {
 
 export default class FileSystemLoader {
 	constructor(root, plugins, fileResolve) {
-		if (root === "/" && process.platform === "win32") {
-			const cwdDrive = process.cwd().slice(0, 3);
-			if (!/^[A-Za-z]:\\$/.test(cwdDrive)) {
-				throw new Error(`Failed to obtain root from "${process.cwd()}".`);
-			}
-			root = cwdDrive;
-		}
+		// if (root === "/" && process.platform === "win32") {
+		// 	const cwdDrive = process.cwd().slice(0, 3);
+		// 	if (!/^[A-Za-z]:\\$/.test(cwdDrive)) {
+		// 		throw new Error(`Failed to obtain root from "${process.cwd()}".`);
+		// 	}
+		// 	root = cwdDrive;
+		// }
 
-		this.root = root;
+		// this.root = root;
 		this.fileResolve = fileResolve;
 		this.sources = {};
 		this.traces = {};
@@ -74,25 +74,29 @@ export default class FileSystemLoader {
 			? await this.fileResolve(newPath, relativeTo)
 			: await Promise.resolve();
 
-		if (fileResolvedPath && !path.isAbsolute(fileResolvedPath)) {
-			throw new Error('The returned path from the "fileResolve" option must be absolute.');
+		// if (fileResolvedPath && !path.isAbsolute(fileResolvedPath)) {
+		// 	throw new Error('The returned path from the "fileResolve" option must be absolute.');
+		// }
+
+		if (!fileResolvedPath) {
+			throw new Error(`cannot resolve ${newPath} from ${relativeTo}`)
 		}
 
-		const relativeDir = path.dirname(relativeTo);
+		// const relativeDir = path.dirname(relativeTo);
 
-		const rootRelativePath = fileResolvedPath || path.resolve(relativeDir, newPath);
+		const rootRelativePath = fileResolvedPath;// || path.resolve(relativeDir, newPath);
 
 		let fileRelativePath =
-			fileResolvedPath || path.resolve(path.resolve(this.root, relativeDir), newPath);
+			fileResolvedPath; // || path.resolve(path.resolve(this.root, relativeDir), newPath);
 
 		// if the path is not relative or absolute, try to resolve it in node_modules
-		if (!useFileResolve && newPath[0] !== "." && !path.isAbsolute(newPath)) {
-			try {
-				fileRelativePath = require.resolve(newPath);
-			} catch (e) {
-				// noop
-			}
-		}
+		// if (!useFileResolve && newPath[0] !== "." && !path.isAbsolute(newPath)) {
+		// 	try {
+		// 		fileRelativePath = require.resolve(newPath);
+		// 	} catch (e) {
+		// 		// noop
+		// 	}
+		// }
 
 		const tokens = this.tokensByFile[fileRelativePath];
 		if (tokens) return tokens;

@@ -1,4 +1,10 @@
-# postcss-modules
+# @wixc3/postcss-modules
+
+## Fork notes:
+
+- Commented out node-specific code.
+- Expect `fs` (with `readFile` and `writeFile`) to be passed in `options`.
+- Validates all required options for isomorphic operation are provided.
 
 A [PostCSS] plugin to use [CSS Modules] everywhere. Not only at the client side.
 

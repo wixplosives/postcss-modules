@@ -1,14 +1,14 @@
 import postcss from "postcss";
 import unquote from "./unquote";
 import Parser from "./Parser";
-import saveJSON from "./saveJSON";
+// import saveJSON from "./saveJSON";
 import { makeLocalsConventionReducer } from "./localsConvention";
 import FileSystemLoader from "./FileSystemLoader";
 import {
 	getDefaultPlugins,
 	getDefaultScopeBehaviour,
 	behaviours,
-	getScopedNameGenerator,
+	// getScopedNameGenerator,
 } from "./scoping";
 
 const PLUGIN_NAME = "postcss-modules";
@@ -21,7 +21,7 @@ function getDefaultPluginsList(opts, inputFile) {
 	const globalModulesList = opts.globalModulePaths || null;
 	const exportGlobals = opts.exportGlobals || false;
 	const defaultBehaviour = getDefaultScopeBehaviour(opts.scopeBehaviour);
-	const generateScopedName = getScopedNameGenerator(opts.generateScopedName, opts.hashPrefix);
+	const generateScopedName = opts.generateScopedName; // getScopedNameGenerator(opts.generateScopedName, opts.hashPrefix);
 
 	if (globalModulesList && isGlobalModule(globalModulesList, inputFile)) {
 		return getDefaultPlugins({
@@ -54,7 +54,8 @@ export function makePlugin(opts) {
 	return {
 		postcssPlugin: PLUGIN_NAME,
 		async OnceExit(css, { result }) {
-			const getJSON = opts.getJSON || saveJSON;
+			const getJSON = opts.getJSON;// || saveJSON;
+
 			const inputFile = css.source.input.file;
 			const pluginList = getDefaultPluginsList(opts, inputFile);
 			const resultPluginIndex = result.processor.plugins.findIndex((plugin) =>
