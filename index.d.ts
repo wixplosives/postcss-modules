@@ -1,5 +1,4 @@
 import type { Plugin } from "postcss";
-
 declare type GenerateScopedNameFunction = (name: string, filename: string, css: string) => string;
 
 declare type LocalsConventionFunction = (
@@ -34,7 +33,14 @@ declare interface Options {
 	hashPrefix?: string;
 	exportGlobals?: boolean;
 	root?: string;
-
+	fs: {
+		writeFile: (path: string, data: any, callback: (e?: Error | null) => void) => void;
+		readFile: (
+			path: string,
+			encoding: "utf-8",
+			callback: (e?: Error | null, data?: string) => string
+		) => void;
+	};
 	Loader?: typeof Loader;
 
 	resolve?: (file: string, importer: string) => string | null | Promise<string | null>;
